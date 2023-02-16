@@ -1,4 +1,5 @@
-# CPZ
+# Transcriptomic atlas and interaction networks of brain cells in mouse CNS demyelination and remyelination
+
 
 This repository contains the code used for snRNA-seq analysis by Hou et al. (2023) of the mouse cuprizone model.
 
