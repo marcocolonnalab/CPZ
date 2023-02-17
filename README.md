@@ -2,6 +2,7 @@
 
 
 This repository contains the code used for snRNA-seq analysis by Hou et al. (2023) of the mouse cuprizone model.
+[![DOI](https://zenodo.org/badge/602279096.svg)](https://zenodo.org/badge/latestdoi/602279096)
 
 ## Code
 Included are the codes necessary to replicate the analyses.
