@@ -131,7 +131,7 @@ d_n  %>%
   geom_point(size = 0.5) +
   geom_point(data = up, color = "#e42625") +
   geom_point(data = down, color = "#3484bc") +
-  geom_text_repel(data = dplyr::filter(de.vs.nor, gene %in% anno_list),
+  geom_text_repel(data = dplyr::filter(d_n, gene %in% anno_list),
                   aes(label=gene),box.padding = 0.4, color = "black", max.overlaps = 50) +
   theme_bw() +
   theme(legend.position="none") +
