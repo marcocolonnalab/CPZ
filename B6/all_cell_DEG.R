@@ -103,28 +103,30 @@ cluster.averages.rna <- cluster.averages$RNA
 write.table(cluster.averages.rna,"~/avg_exp_rna.tsv", sep= "\t")
 
 
+
 ## volcano plots
 d_n <- read.table("~/demye_vs_normal.txt", sep= "\t")
 #remove "mm10---"
 d_n$gene <- gsub("mm10---","", d_n$gene)
 # set padj, log2FC threshold value (check the csv colume name)
 up <- d_n %>% 
-  
+  dplyr::filter(cluster == "Micro") %>%
   dplyr::filter(p_val_adj < 0.05, avg_log2FC > 0.5)
-down <- de.vs.nor %>% 
+down <- d_n %>% 
+  dplyr::filter(cluster == "Micro") %>%
   dplyr::filter(p_val_adj < 0.05, avg_log2FC < (-0.5))
-sig <- de.vs.nor %>% 
+sig <- d_n %>% 
   dplyr::filter(p_val_adj < 0.05, abs(avg_log2FC) > 0.5) %>%
   top_n(wt = abs(avg_log2FC), n = 100)
 anno_list <- sig$gene
 # anno_list <- c(filter(de.vs.nor p_val_adj < 0.05, avg_log2FC > 1)$gene, filter(de.vs.nor, p_val_adj < 0.05, avg_log2FC < (-0.5))$gene)
 # add diffexpressed colum to the table
-de.vs.nor$diffexpressed <- "NO"
-de.vs.nor$diffexpressed[de.vs.nor$avg_log2FC > 0.5 & de.vs.nor$p_val_adj < 0.05] <- "UP"
-de.vs.nor$diffexpressed[de.vs.nor$avg_log2FC < (-0.5) & de.vs.nor$p_val_adj < 0.05] <- "DOWN"
+d_n$diffexpressed <- "NO"
+d_n$diffexpressed[d_n$avg_log2FC > 0.5 & d_n$p_val_adj < 0.05] <- "UP"
+d_n$diffexpressed[d_n$avg_log2FC < (-0.5) & d_n$p_val_adj < 0.05] <- "DOWN"
 # plot volcano
 library(ggrepel)
-de.vs.nor  %>% 
+d_n  %>% 
   ggplot(aes(x = avg_log2FC, y = -log10(p_val_adj)), color = diffexpressed) +
   geom_point(size = 0.5) +
   geom_point(data = up, color = "#e42625") +
@@ -138,5 +140,5 @@ de.vs.nor  %>%
   xlab("log2(Fold Change)") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 # save pdf
-ggsave(filename = "/storage1/fs1/mcolonna/Active/JinChao/AS025_analysis/All_celltype/micro_de.vs.nor_0904.pdf",device = "pdf", height = 9, width = 9)
+ggsave(filename = "~micro_d_n.pdf",device = "pdf", height = 9, width = 9)
 
